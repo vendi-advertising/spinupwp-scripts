@@ -1,1 +1,1 @@
-# spinupwp-scripts
+# SpinupWP Scripts
