@@ -85,3 +85,50 @@ sudo bash ./install-imunifyav.sh
 ```bash
 sudo ./imunify-login.sh
 ```
+
+### Redis
+
+* [Install script](./dedicated-redis.sh)
+* [SpinupWP thread](https://community.spinupwp.com/c/peer-to-peer-help/redis-max-memory-per-site)
+
+#### Variables
+
+##### `SITE_NAME`
+
+Although not required, should match the SpinupWP account.
+
+##### `SITE_REDIS_PORT`
+
+The default redis port is 6379, so this should manually be incremented by 1 each time.
+
+##### `SITE_REDIS_PASSWORD`
+
+The password just ensures that sites don't leak into each other.
+
+##### `SITE_REDIS_MAX_MEMORY`
+
+Maximum memory, pick a good number for your site
+
+#### Running
+
+Find the ports that Redis is already listening on:
+
+```bash
+sudo netstat -tulpn | grep LISTEN | grep redis
+```
+
+Install
+
+```bash
+sudo bash ./dedicated-redis.sh
+```
+
+Setup WordPress. You **MUST** reset these variables, do not just copy and paste them. So if in your installer you set the
+port to 6899, you must do the same here. Maybe someday this will be included in the above script, but just not today.
+
+```bash
+SITE_REDIS_PORT=6382
+SITE_REDIS_PASSWORD="abc123"
+wp config set WP_REDIS_PORT ${SITE_REDIS_PORT} --raw
+wp config set WP_REDIS_PASSWORD "${SITE_REDIS_PASSWORD}"
+```
